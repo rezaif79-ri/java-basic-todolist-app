@@ -4,21 +4,21 @@ public class todoList {
 
     public static java.util.Scanner scanner = new java.util.Scanner(System.in);
 
-    public static void clearConsole(){
+    public static void clearConsole() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
 
-    static String readInput(){
+    static String readInput() {
         String data = scanner.nextLine();
         return data;
     }
 
     public static void main(String[] args) {
         boolean exit = false;
-        do{
+        do {
             exit = mainTodoList();
-        }while(!exit);
+        } while (!exit);
     }
 
     static boolean mainTodoList() {
@@ -34,22 +34,22 @@ public class todoList {
 
         boolean exit = switch (input) {
             case "1" -> {
-                viewTodoList(); 
+                viewTodoList();
                 yield false;
             }
             case "2" -> {
-                insertTodoList(); 
+                insertTodoList();
                 yield false;
             }
             case "3" -> {
-                updateTodoList(); 
+                updateTodoList();
                 yield false;
             }
             case "4" -> {
-                deleteTodoList(); 
+                deleteTodoList();
                 yield false;
             }
-            case "x", "X" -> { 
+            case "x", "X" -> {
                 yield true;
             }
             default -> {
@@ -62,22 +62,22 @@ public class todoList {
         return exit;
     }
 
-    static void viewTodoList(){
+    static void viewTodoList() {
         clearConsole();
         System.out.println("=== ToDo List ===");
 
-        if (model.length == 0){
+        if (model.length == 0) {
             clearConsole();
             System.out.println("List kosong \n");
-        }else {
-            for(var i = 0; i < model.length; i++) {
-                System.out.println((i+1) + ". " + model[i]);
+        } else {
+            for (var i = 0; i < model.length; i++) {
+                System.out.println((i + 1) + ". " + model[i]);
             }
             System.out.println();
         }
     }
 
-    static void insertTodoList(){
+    static void insertTodoList() {
         clearConsole();
         System.out.println("===== TodoList =====");
         System.out.print("Todo: ");
@@ -85,51 +85,60 @@ public class todoList {
 
         var temp = model;
         model = new String[model.length + 1];
-        for(var i = 0; i < temp.length; i++) {
+        for (var i = 0; i < temp.length; i++) {
             model[i] = temp[i];
         }
-        model[model.length-1] = input;
+        model[model.length - 1] = input;
         System.out.println();
     }
 
-    static void deleteTodoList(){
+    static void deleteTodoList() {
         clearConsole();
         viewTodoList();
 
         System.out.print("Hapus ToDo ID: ");
         var input = readInput();
 
-        var number = Integer.valueOf(input);
-        if (number < 0 || number > model.length) {
-            System.out.println("ToDo ID tidak ditemukan");
-        }else {
-            var temp = model;
-            model = new String[model.length - 1];
-            for (int i = 0, k = 0; i < temp.length; i++) {
-                if (i == number - 1) {
-                    continue;
+        try {
+            var number = Integer.valueOf(input);
+            if (number < 0 || number > model.length) {
+                System.out.println("ToDo ID tidak ditemukan");
+                return;
+            } else {
+                var temp = model;
+                model = new String[model.length - 1];
+                for (int i = 0, k = 0; i < temp.length; i++) {
+                    if (i == number - 1) {
+                        continue;
+                    }
+                    model[k++] = temp[i];
                 }
-                model[k++] = temp[i];
             }
+        } catch (Exception e) {
+            System.out.println("Invalid input!");
         }
     }
 
-    static void updateTodoList(){
+    static void updateTodoList() {
         clearConsole();
         viewTodoList();
 
         System.out.print("Update ToDo ID: ");
         var input = readInput();
 
-        var number = Integer.valueOf(input);
-        if (number < 0 || number > model.length) {
-            System.out.println("ToDo ID tidak ditemukan");
-            return;
+        try {
+            var number = Integer.valueOf(input);
+            if (number < 0 || number > model.length) {
+                System.out.println("ToDo ID tidak ditemukan");
+                return;
+            }
+            System.out.print("Update ToDo: ");
+            var input2 = readInput();
+
+            model[number - 1] = input2;
+        } catch (Exception e) {
+            System.out.println("Invalid input!");
         }
 
-        System.out.print("Update ToDo: ");
-        var input2 = readInput();
-
-        model[number - 1] = input2;
     }
 }
