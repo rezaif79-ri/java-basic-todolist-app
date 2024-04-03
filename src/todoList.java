@@ -40,6 +40,10 @@ public class todoList {
                 insertTodoList(); 
                 yield false;
             }
+            case "3" -> {
+                deleteTodoList(); 
+                yield false;
+            }
             case "x", "X" -> { 
                 yield true;
             }
@@ -81,5 +85,27 @@ public class todoList {
         }
         model[model.length-1] = input;
         System.out.println();
+    }
+
+    static void deleteTodoList(){
+        clearConsole();
+        viewTodoList();
+
+        System.out.print("Hapus ToDo ID: ");
+        var input = readInput();
+
+        var number = Integer.valueOf(input);
+        if (number < 0 || number >= model.length) {
+            System.out.println("ToDo ID tidak ditemukan");
+        }else {
+            var temp = model;
+            model = new String[model.length - 1];
+            for (int i = 0, k = 0; i < temp.length; i++) {
+                if (i == number - 1) {
+                    continue;
+                }
+                model[k++] = temp[i];
+            }
+        }
     }
 }
