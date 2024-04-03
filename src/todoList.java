@@ -25,7 +25,8 @@ public class todoList {
         System.out.println("======= Menu =======");
         System.out.println("1. Lihat ToDo List");
         System.out.println("2. Tambah ToDo");
-        System.out.println("3. Hapus ToDo");
+        System.out.println("3. Update ToDo");
+        System.out.println("4. Hapus ToDo");
         System.out.print("Pilihan (x to exit): ");
         var input = readInput();
 
@@ -41,6 +42,10 @@ public class todoList {
                 yield false;
             }
             case "3" -> {
+                updateTodoList(); 
+                yield false;
+            }
+            case "4" -> {
                 deleteTodoList(); 
                 yield false;
             }
@@ -95,7 +100,7 @@ public class todoList {
         var input = readInput();
 
         var number = Integer.valueOf(input);
-        if (number < 0 || number >= model.length) {
+        if (number < 0 || number > model.length) {
             System.out.println("ToDo ID tidak ditemukan");
         }else {
             var temp = model;
@@ -107,5 +112,24 @@ public class todoList {
                 model[k++] = temp[i];
             }
         }
+    }
+
+    static void updateTodoList(){
+        clearConsole();
+        viewTodoList();
+
+        System.out.print("Update ToDo ID: ");
+        var input = readInput();
+
+        var number = Integer.valueOf(input);
+        if (number < 0 || number > model.length) {
+            System.out.println("ToDo ID tidak ditemukan");
+            return;
+        }
+
+        System.out.print("Update ToDo: ");
+        var input2 = readInput();
+
+        model[number - 1] = input2;
     }
 }
